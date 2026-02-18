@@ -1,0 +1,13 @@
+http:
+  host: "0.0.0.0"
+  port: "8081"
+
+snowflake:
+  account.name: "juc81262.us-east-1"
+  warehouse: "COMPUTE_WH"
+  database: "RAW_ETL"
+  schema: "SRC_TICKETSAUCE"
+  user: "SVC_MULESOFT"
+  role: "SR_MULESOFT"
+  private.key.path: "C:\\Users\\Thunder\\AnypointStudio\\tao-group-workspace\\snowflake-sys-api\\src\\main\\resources\\snowflake_mulesoft_pkcs8.key"
+  private.key.pass: "TaoGroup-Snowflake-Mule-2026!"

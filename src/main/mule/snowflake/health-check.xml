@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:snowflake="http://www.mulesoft.org/schema/mule/snowflake"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/snowflake http://www.mulesoft.org/schema/mule/snowflake/current/mule-snowflake.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="snowflake-healthcheck-select" doc:id="b03aec4d-13e8-4b9d-9444-1dd375c2ad97" >
+		<logger level="INFO" doc:name="START Logger" doc:id="6d2df3b5-8d20-4199-ab5b-1829aec85182" message="Starting flow: snowflake-healthcheck-select, correlation ID: #[vars.correlationId]"/>
+		<snowflake:select doc:id="82e77600-bc04-4dc9-867d-4dd12733d0c1" config-ref="Snowflake_Config">
+			<snowflake:sql ><![CDATA[SELECT 1]]></snowflake:sql>
+		</snowflake:select>
+		<ee:transform doc:name="Transform Message" doc:id="f84ef252-733c-41ab-9010-dbe18d407080" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Payload Logger" doc:id="f0cbdfa4-d6a3-4091-94be-b62a53854233" message="Successful Snowflake SELECT, payload: #[payload]"/>
+		<logger level="INFO" doc:name="END Logger" doc:id="ef645d3a-efd4-4966-a16b-397434b99688" message="End of flow: snowflake-healthcheck-select,"/>
+		<error-handler >
+			<on-error-propagate type="ANY" logException="false" enableNotifications="true">
+				<logger level="INFO" doc:name="Error Logger" doc:id="b3269bf6-46ed-4f55-8c70-5d328addf78e" message="Error occured on flow: snowflake-healthcheck-select, correlation ID: #[vars.correlationId]"/>
+				<flow-ref doc:name="Flow Ref to generic-error-handling-sub-flow" doc:id="c855384e-2828-4f7e-a246-8f85e9ef680d" name="generic-error-handling-sub-flow" />
+    
+</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>

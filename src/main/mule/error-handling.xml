@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="apikit-error-handling" doc:id="bc7c2629-a5d2-44e6-938c-c7a75ccecc01" >
+		<ee:transform doc:name="Set Error Message" doc:id="579da834-d4cc-4e88-90b2-5c90cb9f30fd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+        "correlationId": vars.correlationId default null,
+        "error": {
+          "type": error.errorType.identifier,
+          "message": payload.message
+        }
+      }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Error Logger" doc:id="3209a3f1-1a07-409d-ae05-7e45cb6abd6d" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="generic-error-handling-sub-flow" doc:id="188a39dd-0e53-4364-8240-e601aaa80470" >
+		<ee:transform doc:name="Set Error Message" doc:id="0ac4fe47-c7ce-466b-aab3-71dd8df9a574" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+        "correlationId": vars.correlationId default null,
+        "error": {
+          "type": error.errorType.identifier,
+          "message": error.description default "Not found"
+        }
+      }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Error Logger" doc:id="a51c0c48-da0d-4e80-a6e0-54189f6adb46" message="#[payload]"/>
+	</sub-flow>
+</mule>

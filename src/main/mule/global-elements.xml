@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:snowflake="http://www.mulesoft.org/schema/mule/snowflake"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/snowflake http://www.mulesoft.org/schema/mule/snowflake/current/mule-snowflake.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<http:listener-config name="snowflake-sys-api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+    <apikit:config name="snowflake-sys-api-config" api="resource::c1ffd29f-ef68-43ae-908e-5aa33bbfa2d0:snowflake-sys-api:1.0.0:raml:zip:snowflake-sys-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" keepApiBaseUri="true"/>
+	<snowflake:snowflake-config name="Snowflake_Config" doc:name="Snowflake Config" doc:id="28b6be72-acc6-4731-8487-f4082c67ce68" >
+		<snowflake:keypair-connection accountName="${snowflake.account.name}" warehouse="${snowflake.warehouse}" database="${snowflake.database}" schema="${snowflake.schema}" privateKeyFile="${snowflake.private.key.path}" privateKeyPassword="${secure::snowflake.private.key.pass}" user="${snowflake.user}" role="${snowflake.role}"/>
+	</snowflake:snowflake-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="44181f35-5e36-423f-b9e8-e028f65c08f7" file="config\config-local.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="3421c7bd-2526-4848-bb6a-9f1f2bd09c13" file="config\secure-config-local.yaml" key="ryOoFLmImoubIOTkj4MJvwCXSbDcltrI" />
+	
+</mule>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+  <!-- IMPORTANT:
+       - Do NOT commit real credentials.
+       - For local dev: copy to ~/.m2/settings.xml and fill values OR use env vars via your shell.
+       - For CI: generate a settings.xml from secrets at runtime.
+  -->
+
+  <servers>
+    <server>
+      <id>Repository</id>
+      <username>${env.ANYPOINT_USERNAME}</username>
+      <password>${env.ANYPOINT_PASSWORD}</password>
+    </server>
+
+    <server>
+      <id>anypoint-platform</id>
+      <username>${env.ANYPOINT_USERNAME}</username>
+      <password>${env.ANYPOINT_PASSWORD}</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>anypoint</id>
+      <repositories>
+        <repository>
+          <id>anypoint-exchange-v3</id>
+          <name>Anypoint Exchange Maven Facade v3</name>
+          <!-- US control plane Exchange Maven Facade v3 format -->
+          <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${env.ANYPOINT_ORG_ID}/maven</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+      </repositories>
+
+      <pluginRepositories>
+        <pluginRepository>
+          <id>anypoint-exchange-v3</id>
+          <name>Anypoint Exchange Maven Facade v3</name>
+          <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${env.ANYPOINT_ORG_ID}/maven</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>anypoint</activeProfile>
+  </activeProfiles>
+
+</settings>
