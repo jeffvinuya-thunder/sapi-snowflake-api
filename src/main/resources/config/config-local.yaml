@@ -9,5 +9,5 @@ snowflake:
   schema: "SRC_TICKETSAUCE"
   user: "SVC_MULESOFT"
   role: "SR_MULESOFT"
-  private.key.path: "C:\\Users\\Thunder\\AnypointStudio\\tao-group-workspace\\snowflake-sys-api\\src\\main\\resources\\snowflake_mulesoft_pkcs8.key"
+  private.key.path: "C:/Users/Thunder/AnypointStudio/tao-group-workspace/sapi-snowflake-api/src/main/resources/snowflake_mulesoft_pkcs8.key"
   private.key.pass: "TaoGroup-Snowflake-Mule-2026!"

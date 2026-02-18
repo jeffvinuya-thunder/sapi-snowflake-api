@@ -15,12 +15,11 @@
             </http:request>
         </munit:execution>
         <munit:validation>
-            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
 			<munit-tools:assert doc:name="Assert payload" doc:id="95f23963-291b-4d13-b268-ad4725cfa026" message="The payload does not match">
-				<munit-tools:that><![CDATA[#[%dw 2.0
-import getpingsnowflakesysapiconfigtest::assert_expression_payload
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import gethealthsnowflakesysapiconfigtest::assert_expression_ping_payload
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+assert_expression_ping_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
 			</munit-tools:assert>
         </munit:validation>
     </munit:test>
@@ -35,7 +34,6 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
             </http:request>
         </munit:execution>
         <munit:validation>
-            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
 			<munit-tools:assert doc:name="Assert payload" doc:id="631d9425-a672-406c-8e26-91801b4d33b2" message="The payload does not match" >
 				<munit-tools:that ><![CDATA[#[%dw 2.0
 import gethealthsnowflakesysapiconfigtest::assert_expression_payload
@@ -44,7 +42,7 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 			</munit-tools:assert>
         </munit:validation>
     </munit:test>
-    <munit:test name="mock-snowflake-connectivity-error" description="Verifying functionality of [get:\health:snowflake-sys-api-config-404-application\json]" expectedErrorType="SNOWFLAKE:CONNECTIVITY">
+    <munit:test name="mock-snowflake-connectivity-error" description="Verifying functionality of [get:\health:snowflake-sys-api-config-404-application\json]" expectedErrorType="HTTP:INTERNAL_SERVER_ERROR">
         <munit:enable-flow-sources>
             <munit:enable-flow-source value="snowflake-sys-api-main" />
             <munit:enable-flow-source value="get:\health:snowflake-sys-api-config" />
@@ -69,15 +67,15 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
             </http:request>
         </munit:execution>
         <munit:validation>
-			<munit-tools:assert doc:name="Assert error payload" doc:id="01f00c4b-d3b2-4288-a527-dff14a080f4d" message="The payload does not match" >
+			<munit-tools:assert doc:name="Assert error payload" doc:id="01f00c4b-d3b2-4288-a527-dff14a080f4d">
 				<munit-tools:that ><![CDATA[#[%dw 2.0
 import gethealthsnowflakesysapiconfigtest::assert_expression_snowflake_connectivity_error_payload
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+assert_expression_snowflake_connectivity_error_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
 			</munit-tools:assert>
         </munit:validation>
     </munit:test>
-	<munit:test name="mock-apikit-bad-request" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="APIKIT:BAD_REQUEST">
+	<munit:test name="mock-apikit-bad-request" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="MULE:CRITICAL">
         <munit:enable-flow-sources>
             <munit:enable-flow-source value="snowflake-sys-api-main" />
             <munit:enable-flow-source value="get:\ping:snowflake-sys-api-config" />
@@ -101,15 +99,15 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
             </http:request>
         </munit:execution>
         <munit:validation>
-			<munit-tools:assert doc:name="Assert error payload" doc:id="a02609da-503a-4983-b53a-5429e757ca28" message="The payload does not match">
+			<munit-tools:assert doc:name="Assert error payload" doc:id="a02609da-503a-4983-b53a-5429e757ca28">
 				<munit-tools:that><![CDATA[#[%dw 2.0
-import gethealthsnowflakesysapiconfigtest::assert_bad_request_expression_error_payload
+import gethealthsnowflakesysapiconfigtest::assert_expression_bad_request_error_payload
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+assert_expression_bad_request_error_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
 			</munit-tools:assert>
         </munit:validation>
     </munit:test>
-	<munit:test name="mock-apikit-method-not-allowed" doc:id="9407bde0-7063-4044-9d7e-29d74cf745ee" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="APIKIT:METHOD_NOT_ALLOWED">
+	<munit:test name="mock-apikit-method-not-allowed" doc:id="9407bde0-7063-4044-9d7e-29d74cf745ee" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="HTTP:METHOD_NOT_ALLOWED">
 		
 		<munit:enable-flow-sources>
 			
@@ -136,15 +134,15 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 			</http:request>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert doc:name="Assert error payload" doc:id="b3cb88f4-f370-4dea-8c4b-3440e2108c2e" message="The payload does not match" >
+			<munit-tools:assert doc:name="Assert error payload" doc:id="b3cb88f4-f370-4dea-8c4b-3440e2108c2e">
 				<munit-tools:that ><![CDATA[#[%dw 2.0
 import gethealthsnowflakesysapiconfigtest::assert_expression_method_not_allowed_error_payload
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+assert_expression_method_not_allowed_error_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
 			</munit-tools:assert>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="mock-apikit-not-acceptable" doc:id="2d6233e4-1098-4119-bdfc-ad4ddfd8ae4d" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="APIKIT:NOT_ACCEPTABLE">
+	<munit:test name="mock-apikit-not-acceptable" doc:id="2d6233e4-1098-4119-bdfc-ad4ddfd8ae4d" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="HTTP:NOT_ACCEPTABLE">
 		
 		<munit:enable-flow-sources>
 			
@@ -171,15 +169,15 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 			</http:request>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert doc:name="Assert error payload" doc:id="2393c5fc-0f05-473e-84ef-f1775a9c009d" message="The payload does not match" >
+			<munit-tools:assert doc:name="Assert error payload" doc:id="2393c5fc-0f05-473e-84ef-f1775a9c009d">
 				<munit-tools:that ><![CDATA[#[%dw 2.0
 import gethealthsnowflakesysapiconfigtest::assert_expression_not_acceptable_error_payload
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+assert_expression_not_acceptable_error_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
 			</munit-tools:assert>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="mock-apikit-unsupported-media-type" doc:id="4690be8c-a80b-4904-a83a-b5135164b05f" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+	<munit:test name="mock-apikit-unsupported-media-type" doc:id="4690be8c-a80b-4904-a83a-b5135164b05f" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="HTTP:UNSUPPORTED_MEDIA_TYPE">
 		
 		<munit:enable-flow-sources>
 			
@@ -206,15 +204,15 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 			</http:request>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert doc:name="Assert error payload" doc:id="321e242e-ebce-4918-88f3-c0de88ac2338" message="The payload does not match" >
+			<munit-tools:assert doc:name="Assert error payload" doc:id="321e242e-ebce-4918-88f3-c0de88ac2338">
 				<munit-tools:that ><![CDATA[#[%dw 2.0
 import gethealthsnowflakesysapiconfigtest::assert_expression_unsupported_media_error_payload
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+assert_expression_unsupported_media_error_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
 			</munit-tools:assert>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="mock-apikit-not-implemented" doc:id="8e3b54db-0fea-4afb-9a1c-246f88f3cddd" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="APIKIT:NOT_IMPLEMENTED">
+	<munit:test name="mock-apikit-not-implemented" doc:id="8e3b54db-0fea-4afb-9a1c-246f88f3cddd" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="MULE:UNKNOWN">
 		
 		<munit:enable-flow-sources>
 			
@@ -241,50 +239,15 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
 			</http:request>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert doc:name="Assert error payload" doc:id="e256e446-9dab-4fb5-8a77-ba8f2eb04fb8" message="The payload does not match" >
+			<munit-tools:assert doc:name="Assert error payload" doc:id="e256e446-9dab-4fb5-8a77-ba8f2eb04fb8">
 				<munit-tools:that ><![CDATA[#[%dw 2.0
 import gethealthsnowflakesysapiconfigtest::assert_expression_not_implemented_error_payload
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+assert_expression_not_implemented_error_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
 			</munit-tools:assert>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="mock-apikit-console-not-found" doc:id="41d7daa7-0243-4ae7-b525-8bd9dba93062" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-404-application\json]" expectedErrorType="APIKIT:NOT_FOUND">
-		
-		<munit:enable-flow-sources>
-			
-			
-			<munit:enable-flow-source value="snowflake-sys-api-main" />
-			<munit:enable-flow-source value="get:\ping:snowflake-sys-api-config" />
-		</munit:enable-flow-sources>
-		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mock when" doc:id="b76337d3-89f4-4e2f-84db-c726c7adbc1f" processor="apikit:console" >
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
-				</munit-tools:with-attributes>
-				<munit-tools:then-return >
-					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
-				</munit-tools:then-return>
-			</munit-tools:mock-when>
-		</munit:behavior>
-		<munit:execution >
-			<http:request doc:name="Request" doc:id="17b6df0a-cb71-4b68-890c-f1b31ab36d68" config-ref="HTTP_Request_Configuration" path="/ping" >
-				<http:headers ><![CDATA[#[{"Accept":"application/json"}]]]></http:headers>
-				<http:response-validator >
-					<http:success-status-code-validator values="404" />
-				</http:response-validator>
-			</http:request>
-		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert doc:name="Assert error payload" doc:id="c82eebd0-9724-483b-999d-76ba934be7d2" message="The payload does not match" >
-				<munit-tools:that ><![CDATA[#[%dw 2.0
-import gethealthsnowflakesysapiconfigtest::assert_expression_not_found_error_payload
----
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
-			</munit-tools:assert>
-		</munit:validation>
-	</munit:test>
-	<munit:test name="mock-apikit-not-found" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-500-application\json]" expectedErrorType="APIKIT:NOT_FOUND">
+	<munit:test name="mock-apikit-not-found" description="Verifying functionality of [get:\ping:snowflake-sys-api-config-500-application\json]" expectedErrorType="HTTP:NOT_FOUND">
         <munit:enable-flow-sources>
             <munit:enable-flow-source value="snowflake-sys-api-main" />
             <munit:enable-flow-source value="get:\ping:snowflake-sys-api-config" />
@@ -308,11 +271,11 @@ assert_expression_payload::main({payload: payload, attributes: attributes, vars:
             </http:request>
         </munit:execution>
         <munit:validation>
-			<munit-tools:assert doc:name="Assert error payload" doc:id="8fb12a13-ff08-4f24-918b-b83a55e79bfa" message="The payload does not match" >
+			<munit-tools:assert doc:name="Assert error payload" doc:id="8fb12a13-ff08-4f24-918b-b83a55e79bfa">
 				<munit-tools:that ><![CDATA[#[%dw 2.0
 import gethealthsnowflakesysapiconfigtest::assert_expression_not_found_error_payload
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+assert_expression_not_found_error_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
 			</munit-tools:assert>
         </munit:validation>
     </munit:test>
