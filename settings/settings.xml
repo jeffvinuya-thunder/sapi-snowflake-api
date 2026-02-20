@@ -12,14 +12,8 @@
   <servers>
     <server>
       <id>Repository</id>
-      <username>${env.ANYPOINT_USERNAME}</username>
-      <password>${env.ANYPOINT_PASSWORD}</password>
-    </server>
-
-    <server>
-      <id>anypoint-platform</id>
-      <username>${env.ANYPOINT_USERNAME}</username>
-      <password>${env.ANYPOINT_PASSWORD}</password>
+      <username>~~~Client~~~</username> 
+      <password>${env.ANYPOINT_CLIENT_ID}~|~${env.ANYPOINT_CLIENT_SECRET}</password>
     </server>
   </servers>
 

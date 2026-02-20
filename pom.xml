@@ -5,6 +5,12 @@
 	<artifactId>sapi-snowflake-api</artifactId>
 	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
+	<distributionManagement>
+    	<repository>
+      		<id>anypoint-exchange-v3</id>
+      		<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${env.ANYPOINT_ORG_ID}/maven</url>
+    	</repository>
+  	</distributionManagement>
 	<name>sapi-snowflake-api</name>
 	<description>System API for MuleSoft-Snowflake integrations</description>
 	<properties>
@@ -40,8 +46,9 @@
 								<provider>MC</provider>
 								<muleVersion>${app.runtime}</muleVersion>
 								<!-- Auth (manual deploy via Maven) -->
-								<username>${env.ANYPOINT_USERNAME}</username>
-								<password>${env.ANYPOINT_PASSWORD}</password>
+								<connectedAppClientId>${env.ANYPOINT_CLIENT_ID}</connectedAppClientId>
+								<connectedAppClientSecret>${env.ANYPOINT_CLIENT_SECRET}</connectedAppClientSecret>
+								<connectedAppGrantType>client_credentials</connectedAppGrantType>
 								<applicationName>${app.name}</applicationName>
 								<!-- Sizing placeholders (tune later) -->
 								<replicas>1</replicas>
@@ -167,7 +174,7 @@
 		<repository>
 			<id>anypoint-exchange-v3</id>
 			<name>Anypoint Exchange</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${env.ANYPOINT_ORG_ID}/maven</url>
 			<layout>default</layout>
 		</repository>
 		<repository>
